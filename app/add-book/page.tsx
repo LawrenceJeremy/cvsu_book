@@ -100,7 +100,7 @@ export default function AddBookPage() {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-slate-50">
+      <div className="flex min-h-screen items-center justify-center from-slate-950 via-slate-900 to-slate-950 text-slate-50">
         <div className="flex items-center gap-3 rounded-xl border border-slate-800 bg-slate-900/80 px-4 py-3 text-sm shadow-lg shadow-black/40">
           <Loader2 className="h-4 w-4 animate-spin text-emerald-400" />
           Loading library data...
@@ -110,9 +110,9 @@ export default function AddBookPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-slate-50">
+    <div className="min-h-screen from-slate-950 via-slate-900 to-slate-950 text-slate-50">
       {/* Header */}
-      <header className="border-b border-white/10 bg-gradient-to-b from-slate-900/60 via-slate-900/40 to-transparent">
+      <header className="border-b border-white/10 from-slate-900/60 via-slate-900/40 to-transparent">
         <div className="mx-auto flex max-w-5xl flex-col gap-4 px-4 py-8 md:flex-row md:items-center md:justify-between">
           <div className="space-y-3">
             <div className="inline-flex items-center gap-2 rounded-full border border-slate-700/70 bg-slate-900/80 px-3 py-1 text-xs font-medium text-slate-300 backdrop-blur">
@@ -299,7 +299,7 @@ export default function AddBookPage() {
                       alt="Preview"
                       className="h-full w-full object-cover"
                     />
-                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/10 to-transparent" />
+                    <div className="pointer-events-none absolute inset-0 from-slate-950/90 via-slate-950/10 to-transparent" />
                   </>
                 ) : (
                   <div className="flex h-full flex-col items-center justify-center gap-2 text-slate-500">

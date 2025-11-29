@@ -81,9 +81,9 @@ export default function BooksLandingPage() {
 
   return (
     <>
-      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-slate-50">
+      <div className="min-h-screen from-slate-950 via-slate-900 to-slate-950 text-slate-50">
         {/* Top gradient / hero */}
-        <header className="border-b border-white/10 bg-gradient-to-b from-slate-900/60 via-slate-900/40 to-transparent">
+        <header className="border-b border-white/10 from-slate-900/60 via-slate-900/40 to-transparent">
           <div className="mx-auto flex max-w-6xl flex-col gap-6 px-4 py-10 md:flex-row md:items-center md:justify-between">
             <div className="space-y-4">
               <div className="inline-flex items-center gap-2 rounded-full border border-slate-700/70 bg-slate-900/80 px-3 py-1 text-xs font-medium text-slate-300 backdrop-blur">
@@ -171,7 +171,7 @@ export default function BooksLandingPage() {
                         alt={book.title}
                         className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
                       />
-                      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/10 to-transparent opacity-70 group-hover:opacity-60" />
+                      <div className="pointer-events-none absolute inset-0 from-slate-950/90 via-slate-950/10 to-transparent opacity-70 group-hover:opacity-60" />
                       <div className="absolute left-2 top-2">
                         <Badge className="bg-slate-950/80 text-[11px] font-normal text-slate-200 ring-1 ring-slate-700/80">
                           {book.yearPublished}
