@@ -8,7 +8,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { BookOpen, ImagePlus, Loader2 } from "lucide-react";
+import { BookOpen, CircleArrowLeft, ImagePlus, Loader2 } from "lucide-react";
+import Link from "next/link";
 
 interface Book {
   id: number;
@@ -117,8 +118,10 @@ export default function UpdateBookPage() {
         <div className="mx-auto flex max-w-5xl flex-col gap-4 px-4 py-8 md:flex-row md:items-center md:justify-between">
           <div className="space-y-3">
             <div className="inline-flex items-center gap-2 rounded-full border border-slate-700/70 bg-slate-900/80 px-3 py-1 text-xs font-medium text-slate-300 backdrop-blur">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-              Update book
+              <Link href="/" className="inline-flex items-center gap-2">
+                <CircleArrowLeft />
+                Back
+              </Link>
             </div>
             <div className="flex items-center gap-3">
               <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-emerald-500/10 ring-1 ring-emerald-500/40">
