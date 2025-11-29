@@ -8,7 +8,6 @@ import { Badge } from "@/components/ui/badge";
 import { BookOpen, Search, Loader2, Trash2, Edit3, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-toast
 
 interface Book {
   id: number;
@@ -50,23 +49,19 @@ export default function BooksLandingPage() {
   });
 
   const handleDelete = async (bookId: number) => {
-  try {
-    const res = await fetch(`http://localhost:8080/api/books/${bookId}`, {
-      method: "DELETE",
-    });
-    if (!res.ok) throw new Error("Failed to delete book");
+    try {
+      const res = await fetch(`http://localhost:8080/api/books/${bookId}`, {
+        method: "DELETE",
+      });
+      if (!res.ok) throw new Error("Failed to delete book");
 
-    // Remove book from state immediately
-    setBooks(prev => prev.filter((b) => b.id !== bookId));
-
-    // Show success toast
-    toast.success("Delete has been success")
-  } catch (err) {
-    console.error(err);
-    toast.error("Failed to delete book, Please try again.")
-  }
-};
-
+      setBooks((prev) => prev.filter((b) => b.id !== bookId));
+      toast.success("Delete has been success");
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to delete book, Please try again.");
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-slate-50">
@@ -95,7 +90,7 @@ export default function BooksLandingPage() {
             </div>
           </div>
 
-          {/* Search bar + Add Book */}
+          {/* Search bar */}
           <div className="flex w-full max-w-sm flex-col gap-2">
             <div className="relative">
               <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
@@ -132,13 +127,19 @@ export default function BooksLandingPage() {
             <p className="mt-1 max-w-xs text-xs text-slate-400">
               Try adjusting your search or add new books.
             </p>
+            <Link href="/add-book" className="mt-4">
+              <Button size="sm" className="flex items-center gap-1 text-xs">
+                <Plus className="h-4 w-4" />
+                Add your first book
+              </Button>
+            </Link>
           </div>
         ) : (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {filteredBooks.map((book) => (
               <Card
                 key={book.id}
-                className="group flex h-full flex-col overflow-hidden border-slate-800/80 bg-slate-900/70 shadow-lg shadow-black/30 backdrop-blur transition hover:-translate-y-1 hover:border-emerald-500/60 hover:shadow-emerald-900/60 relative"
+                className="group relative flex h-full flex-col overflow-hidden border-slate-800/80 bg-slate-900/70 shadow-lg shadow-black/30 backdrop-blur transition hover:-translate-y-1 hover:border-emerald-500/60 hover:shadow-emerald-900/60"
               >
                 {/* Cover */}
                 <div className="relative h-52 w-full overflow-hidden">
