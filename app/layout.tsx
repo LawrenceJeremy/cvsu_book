@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-import { Toaster } from "sonner";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { BookOpen, Plus } from "lucide-react";
+import "./globals.css";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import { Plus } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Toaster } from "sonner";
+import { Geist, Geist_Mono } from "next/font/google";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,22 +18,22 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "CvSU Bacoor Library",
-  description:
-    "Efficiently organize, track, and manage books, borrowers, and transactions with an easy-to-use library management solution. Automate cataloging, monitor inventory, handle book lending and returns, and generate reports to streamline daily library operations and improve user experience.",
+  title: "Cavite State University Bacoor - Library",
+  description: "Library management",
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-slate-50`}
       >
-        <nav className="bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-slate-50 sticky top-0 z-40">
+        {/* NAVBAR */}
+        <nav className="bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-slate-50 sticky top-0 z-40 border-b border-white/10">
           <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
             {/* Left: Logo / Brand */}
             <Link href="/" className="flex items-center gap-3">
@@ -43,16 +43,14 @@ export default function RootLayout({
                 </Avatar>
               </div>
               <div className="flex flex-col">
-                <span className="text-sm font-semibold tracking-tight ">
-                  Cavite state University Bacoor
+                <span className="text-sm font-semibold tracking-tight">
+                  Cavite State University Bacoor
                 </span>
-                <span className="text-[11px] ">
-                  Library
-                </span>
+                <span className="text-[11px]">Library</span>
               </div>
             </Link>
 
-            {/* Right: Links + CTA */}
+            {/* Right: CTA */}
             <div className="flex items-center gap-3">
               <Link href="/add-book">
                 <Button
@@ -67,7 +65,27 @@ export default function RootLayout({
           </div>
         </nav>
 
-        {children}
+        {/* MAIN CONTENT */}
+        <main className="min-h-[calc(100vh-6rem)]">{children}</main>
+
+        {/* FOOTER */}
+        <footer>
+          <div className="mx-auto flex max-w-6xl flex-col gap-2 px-4 py-4 text-[11px] text-slate-400 md:flex-row md:items-center md:justify-between">
+            <div className="flex items-center gap-2">
+              <span className="font-medium text-slate-300">
+                Cavite State University Bacoor Campus
+              </span>
+              <span className="hidden text-slate-600 md:inline">•</span>
+              <span>Library Management System</span>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-3">
+              <span className="text-slate-500">
+                © {new Date().getFullYear()} CvSU Bacoor. All rights reserved.
+              </span>
+            </div>
+          </div>
+        </footer>
         <Toaster />
       </body>
     </html>
