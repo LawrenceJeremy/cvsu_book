@@ -1,7 +1,10 @@
+// app/update-book/page.tsx
 "use client";
 
 import { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
+import { Suspense } from "react";
+
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -20,12 +23,12 @@ interface Book {
   imageUrl: string;
 }
 
-export default function UpdateBookPage() {
+// 👉 Inner component that uses useSearchParams
+function UpdateBookInner() {
   const searchParams = useSearchParams();
   const bookId = searchParams.get("id");
   const router = useRouter();
 
-  // Form state
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [yearPublished, setYearPublished] = useState<number>(2025);
@@ -33,10 +36,8 @@ export default function UpdateBookPage() {
   const [file, setFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [currentImagePath, setCurrentImagePath] = useState<string | null>(null);
-
   const [submitting, setSubmitting] = useState(false);
 
-  // Fetch existing book data
   useEffect(() => {
     if (!bookId) return;
 
@@ -52,12 +53,13 @@ export default function UpdateBookPage() {
         setDescription(data.description);
 
         setCurrentImagePath(data.imageUrl || null);
-        setPreviewUrl(data.imageUrl ? `http://localhost:8080${data.imageUrl}` : null);
+        setPreviewUrl(
+          data.imageUrl ? `http://localhost:8080${data.imageUrl}` : null
+        );
       })
       .catch((err) => console.error(err));
   }, [bookId]);
 
-  // Handle file selection
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0] ?? null;
     setFile(selectedFile);
@@ -69,13 +71,13 @@ export default function UpdateBookPage() {
     }
   };
 
-  // Reset file / preview to original
   const handleResetFile = () => {
     setFile(null);
-    setPreviewUrl(currentImagePath ? `http://localhost:8080${currentImagePath}` : null);
+    setPreviewUrl(
+      currentImagePath ? `http://localhost:8080${currentImagePath}` : null
+    );
   };
 
-  // Update book submit
   const updateBook = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!bookId) return;
@@ -83,26 +85,27 @@ export default function UpdateBookPage() {
     setSubmitting(true);
 
     try {
-      // Create form data for PUT
       const formData = new FormData();
       formData.append("title", title);
       formData.append("author", author);
       formData.append("yearPublished", yearPublished.toString());
       formData.append("description", description);
 
-      // Append new file only if user selected one
       if (file) {
         formData.append("image", file);
       }
 
-      const response = await fetch(`http://localhost:8080/api/books/update/${bookId}`, {
-        method: "PUT",
-        body: formData,
-      });
+      const response = await fetch(
+        `http://localhost:8080/api/books/update/${bookId}`,
+        {
+          method: "PUT",
+          body: formData,
+        }
+      );
 
       if (!response.ok) throw new Error("Failed to update book");
 
-      router.push("/"); // redirect to landing page
+      router.push("/");
     } catch (err) {
       console.error(err);
       alert("Failed to update book. Check console for details.");
@@ -111,6 +114,7 @@ export default function UpdateBookPage() {
     }
   };
 
+  // 🔻 YOUR EXISTING JSX (I’ll keep it, just slightly trimmed for clarity)
   return (
     <div className="min-h-screen from-slate-950 via-slate-900 to-slate-950 text-slate-50">
       {/* Header */}
@@ -192,7 +196,8 @@ export default function UpdateBookPage() {
                       htmlFor="yearPublished"
                       className="text-xs text-slate-200"
                     >
-                      Year published <span className="text-emerald-400">*</span>
+                      Year published{" "}
+                      <span className="text-emerald-400">*</span>
                     </Label>
                     <Input
                       id="yearPublished"
@@ -236,7 +241,10 @@ export default function UpdateBookPage() {
                       </div>
                       <div className="flex flex-col">
                         <span className="font-medium text-slate-100">
-                          {file ? file.name : currentImagePath?.split("/").pop() || "Choose a cover image"}
+                          {file
+                            ? file.name
+                            : currentImagePath?.split("/").pop() ||
+                              "Choose a cover image"}
                         </span>
                         <span className="text-[11px] text-slate-400">
                           JPG, PNG • Recommended: portrait cover
@@ -297,7 +305,9 @@ export default function UpdateBookPage() {
                 ) : (
                   <div className="flex h-full flex-col items-center justify-center gap-2 text-slate-500">
                     <ImagePlus className="h-6 w-6" />
-                    <p className="text-xs">Cover preview will appear here</p>
+                    <p className="text-xs">
+                      Cover preview will appear here
+                    </p>
                   </div>
                 )}
                 <div className="absolute left-2 top-2">
@@ -334,5 +344,21 @@ export default function UpdateBookPage() {
         </div>
       </main>
     </div>
+  );
+}
+
+// 👇 IMPORTANT: this must exist for Next.js
+export default function UpdateBookPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center text-slate-100">
+          <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+          Loading book...
+        </div>
+      }
+    >
+      <UpdateBookInner />
+    </Suspense>
   );
 }
