@@ -34,13 +34,21 @@ export default function AddBookPage() {
 
   const [submitting, setSubmitting] = useState(false);
 
+  // fetchBooks
   const fetchBooks = async () => {
     try {
       const res = await fetch("http://localhost:8080/api/books");
       const data = await res.json();
-      setBooks(data);
+
+      if (Array.isArray(data)) {
+        setBooks(data);
+      } else {
+        console.warn("Expected an array but got:", data);
+        setBooks([]); // fallback
+      }
     } catch (err) {
       console.error(err);
+      setBooks([]); // prevent crash
     } finally {
       setLoading(false);
     }
@@ -75,7 +83,7 @@ export default function AddBookPage() {
 
     try {
       setSubmitting(true);
-      const res = await fetch("http://localhost:8080/api/books/upload", {
+      const res = await fetch("http://localhost:8080/api/books/create", {
         method: "POST",
         body: formData,
       });
